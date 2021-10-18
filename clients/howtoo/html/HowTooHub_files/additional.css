@@ -1,0 +1,51 @@
+nav.navbar.main-menu li.has-submenu.active a:first-child::after {
+    /*content: " -";*/
+}
+
+nav.navbar.main-menu li.has-submenu a:first-child::after {
+    /*content: " +";*/
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner:after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    margin-left: -5px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #000;
+    animation: spinner 1s linear infinite;
+}
+
+/**
+ * closed class added by jQuery
+ */
+#navMenu li.closed:hover > ul,
+#navMenu li.closed > ul{
+    display: none;
+}
+
+#navMenu li.active:hover > ul,
+#navMenu li.opened > ul {
+    display: block;
+}
+/**
+
+ */
+nav.navbar.main-menu li.opened:not(.active) > a,
+nav.navbar.main-menu li.opened:not(.active) ul li a:hover,
+nav.navbar.main-menu li.closed:not(.active) a:hover,
+nav.navbar.main-menu li.opened ul li:not(.active) a:hover{
+    border-right: #FFB223 solid 2px !important;
+}
