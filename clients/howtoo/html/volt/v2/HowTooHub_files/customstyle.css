@@ -808,6 +808,7 @@ td.groupAdmins span {width:220px;}
   background: #051315!important;
   height: auto;
   padding-bottom: 40px;
+<<<<<<< HEAD
 }
 
 .wrapper-container {
@@ -831,6 +832,66 @@ h1.info-text-title {
   font-size: 16px;
   font-weight: 200;
   margin-top: 30px;
+}
+
+.btn-start {
+  margin-top: 40px;
+  padding-left: 0;
+}
+
+.main-pic {
+  display: block;
+  margin: 40px auto 0;
+}
+
+.volt-img {
+  width: 350px;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.picture, .bottom-pic  {
+  background: #051315;
+}
+
+.navbar-navigation li:not(:last-child) {
+  margin-right: 15px!important;
+}
+
+@media screen and (min-width: 2000px) and (height: 1440px) {
+  .main-pic {
+    margin: 200px auto 0!important;
+  }
+
+  .bottom-pic {
+    margin-top: 150px;
+  }
+=======
+}
+
+.wrapper-container {
+  display: flex;
+}
+
+.info-text {
+  width: 600px;
+  padding: 40px 60px;
+  color: #fff;
+}
+
+h1.info-text-title {
+  color: #fff!important;
+  font-family: 'Oswald', sans-serif!important;
+  font-size: 42px!important;
+  line-height: 40px!important;
+}
+
+.info-text-subtitle {
+  font-size: 16px;
+  font-weight: 200;
+  margin-top: 30px;
+>>>>>>> 9d19b00554b803b8bbbb76754d7c236361c490db
 }
 
 .btn-start {
@@ -1279,10 +1340,17 @@ a.m-logo {display:none !important;}
 .user-site-statistics .span4 {border:none;}*/
 .wrapper-container {
   margin-bottom: 20px;
+<<<<<<< HEAD
 }
 .info-text {
   padding: 20px;
 }
+=======
+}
+.info-text {
+  padding: 20px;
+}
+>>>>>>> 9d19b00554b803b8bbbb76754d7c236361c490db
   .volt-img {
     margin-top: 40px;
   }
