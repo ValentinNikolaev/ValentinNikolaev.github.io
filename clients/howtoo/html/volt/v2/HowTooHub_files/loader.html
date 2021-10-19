@@ -1,0 +1,179 @@
+
+<!-- saved from url=(0040)https://www.howtoohub.com.au/loader.html -->
+<html class=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Frame</title>
+<script>
+var localLocation =  new String(window.location);
+localLocation = localLocation.slice(localLocation.indexOf('.')+1, localLocation.length);
+localLocation = localLocation.slice(0, localLocation.indexOf('/'));
+document.domain = localLocation;
+// alert(document.domain);
+(function ($, window, document) {
+    // var p = window.parent;
+    /**
+     * This function will be used to detect if a user/learner has just logged out..
+     * Upon logging out, we need to 'clear' their current sessionStorage cached data.
+     * This ensure they always get fresh directory data when they log in
+     */
+    $.fn.getUserStatus = function() {
+        var baseUrl = $.fn.getWindowLocation(), url, $ajax, uli = window.directory.userLoggedIn, suli = sessionStorage.getItem("userLoggedIn");
+        url = baseUrl + '/ajax/userstatus';
+        $ajax = $.ajax({
+            type:"GET",
+            beforeSend: function (request)
+            {
+                request.setRequestHeader("Ajax", "user status");
+            },
+            dataType: 'json',
+            accepts: { text: "application/json"},
+            url:url
+        });
+        $ajax.success(function (data) {
+            // manage the returned data
+        //    console.log(data.isLogged);
+            if (data.isLogged == 1) {
+        //        console.log("getUserStatus returned true...");
+                // check sessionStorage and update as needed
+                if (!suli || suli == 0) {
+        //            console.log(" change status to logged in...");
+                    sessionStorage.setItem("userLoggedIn", 1);
+                }
+                // set runtime config to 'logged in'
+                window.directory.userLoggedIn = 1;
+            }
+            if (data.isLogged == 0) {
+         //       console.log("getUserStatus returned false...");
+                // check if user has logged out
+                // during a 'logout' the page refreshes - so the runtime' uli will not be set - just look for the seessioStorage value
+                if (suli && suli == 1) {
+         //           console.log("getUserStatus, suli is true.. user logged out.. clearing storage...");
+                    // clear all stored caches
+                    sessionStorage.clear();
+                    // set runtime config to 'logged out'
+                    window.directory.userLoggedIn = 0;
+                } else {
+        //            console.log("getUserStatus, suli also false. no action...");
+                }
+            }
+
+        }).fail( function (response, code) {
+            console.log("get user status failed... code: " + code + ". response: " + response);
+        }).always(function(jqXHR, textStatus) {
+            console.log('user status retrieved...');
+        });
+    };
+    // run on pageload
+//    $.fn.getUserStatus();
+    // run at 30 second intervals there after ??
+//    setInterval(function() { $.fn.getUserStatus(); }, 30000);
+
+    /**
+     * This function will run on interval - it will use the array of current 'cached directories' and fetch an 'item' count for each directory.
+     * If the count is 'less or more' the directory data in question will be refreshed.
+     * This will resolve scenarios where a learner is logged in and available data is removed/added or another 'Admin' modifies data currently cached by another user
+     */
+    $.fn.runItemCountCheck = function() {
+        var targetArray = JSON.parse(sessionStorage.getItem('targetArray')) || [], i, directory, jsonData, cachedData, id, learnerCount, x, y, z, split;
+        if (targetArray.length >= 1) {
+        	(function loopIt (i) {
+    //    		console.log("count i: " + i);
+        		z = i - 1;
+    //    		console.log("count x: " + z);
+            	directory = targetArray[z];
+            	var processing, $ajax, url, signature, config = $.fn.getConfig('GET'), req, directoryData, target, template, content, $template, id = '/count';
+            	if (directory.indexOf("/") !== -1) {
+            		target = directory.slice(0, directory.indexOf("/"))
+            	}  else {
+            		target = directory;
+            	}
+                split = directory.split("/");
+                if (split[0] == 'distribution') {
+                	id = '/count-' + split[1];
+                }
+                url  = $.fn.getUrl(config, target + '/' + target);
+     //           console.log("getting count for directory using url: " + url);
+
+                // recreate this for each loop to ensure it always unique
+                config.oauth_nonce = $.fn.createRandomString(6) + new Date().getTime();
+    //            console.log("created nonce: " + config.oauth_nonce);
+
+                signature = $.fn.generateOauthString( config.method, url, window.savvecentral_api_public_key, config.oauth_nonce, config.oauth_signature_method, config.oauth_timestamp, window.savve_user_token, config.oauth_ttl, config.oauth_version, window.savvecentral_api_private_key, '', '' );
+                req = '?oauth_consumer_key=' + window.savvecentral_api_public_key + '&oauth_nonce=' + config.oauth_nonce + '&oauth_signature_method=' + config.oauth_signature_method + '&oauth_timestamp=' + config.oauth_timestamp + '&oauth_token=' + window.savve_user_token + '&oauth_ttl=' + config.oauth_ttl + '&oauth_version=' + config.oauth_version + '&oauth_signature=' + signature;
+                url = url + id +  req;
+     //           console.log("count complete url: " + url);
+                $ajax = $.ajax({
+                    beforeSend: function (request)
+                    {
+                        request.setRequestHeader("API", "directory");
+                        request.setRequestHeader("Accept", "application/json; charset=utf-8");
+                        processing = 1;
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    accepts: { text: "application/json"},
+                    url:url
+                });
+                $ajax.success(function (data) {
+                    if (data.title == 'Success') {
+                        if (data.data.success = true) {
+
+                            jsonData = JSON.parse(sessionStorage.getItem(directory + '_json'));
+                            cachedData = jsonData.data.directoryData;
+                            console.log("getting count for directory: " + directory);
+                            console.log("count for directory returned: " + data.data.count);
+                            console.log("count for cached data: " + cachedData.length);
+
+                            // basic item count check
+                            if (cachedData.length != data.data.count) {
+                                // refresh the directory
+                                $.fn.reloadDirectory(directory);
+                                return;
+                            }
+                            // group directory content check
+                            if (directory == 'group/directory') {
+                                console.log("checking group directory group learner counts...");
+                                // iterate through and compare count of learners in each group
+                                for (y = 0; y < cachedData.length; y = y + 1) {
+                                    id           = cachedData[y].id;
+                                    learnerCount = cachedData[y].numLearners;
+        //          console.log("checking group: " + id);
+                                    // check against returned array
+                                    for (x = 0; x < data.data.directoryData.length; x = x + 1) {
+    	//          console.log("against group: " + data.data.directoryData[x].id);
+                                        if (id == data.data.directoryData[x].id) {
+		//          console.log("group id matched - group id1: " + id + " has count1: " + learnerCount + " group id2: " + data.data.directoryData[x].id + " has count2 " + data.data.directoryData[x].numLearners);
+                                            if (learnerCount != data.data.directoryData[x].numLearners) {
+                                                // refresh the directory
+        //          console.log("group directory learner count missmatch - reloading directory...");
+                                                $.fn.reloadDirectory(directory);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (--i && i >= 0) { loopIt(i); }
+                }).fail( function (response, code) {
+		            console.log("get user status failed... code: " + code + ". response: " + response);
+		        }).always(function(jqXHR, textStatus) {
+		//            console.log('user status retrieved...');
+		        });
+         	})(targetArray.length);
+        }
+    };
+
+    // run at 45 second intervals but wait 1 minute after page load to start
+    setTimeout(function() {
+        setInterval(function() { $.fn.runItemCountCheck(); }, 45000);
+    }, 20000);
+
+
+})(((window.parent.window.$ === undefined) ? window.parent.window.jQuery : window.parent.window.$), window.parent.window, document);
+/* */
+</script>
+</head>
+<body>
+
+</body></html>
