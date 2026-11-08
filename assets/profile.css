@@ -49,10 +49,6 @@ h3 { font-size: 1.05rem; margin: 0 0 12px; }
 article p { color: var(--muted); }
 .working { margin: 32px 0 48px; max-width: 70ch; }
 .working h2 { margin-bottom: 16px; }
-footer { border-top: 1px solid var(--border); padding: 24px 0 40px; color: var(--muted); }
-footer h2 { font-size: 1rem; margin-bottom: 12px; }
-footer ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 28px; padding: 0; margin: 0; }
-footer a { display: inline-block; padding: 6px 0; font-size: .9rem; }
 @media (max-width: 680px) {
     .page { width: calc(100% - 32px); }
     .masthead { align-items: flex-start; flex-direction: column; gap: 12px; padding-top: 24px; }
