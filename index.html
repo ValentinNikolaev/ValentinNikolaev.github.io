@@ -1,26 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Valentin Nikolaev demos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta name="description" content="Valentin Nikolaev — backend engineering with Go and PHP. Projects, tools and a slightly chaotic workshop.">
+    <meta name="color-scheme" content="light dark">
+    <title>Valentin Nikolaev · Go &amp; PHP</title>
+    <link rel="stylesheet" href="assets/profile.css">
 </head>
 <body>
 
-<div class="container">
-    <h2>Demos</h2>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <a href="./clients/howtoo/html/volt/v1/volt.html">HowToo Volt html markup [v.1]</a>
-        </li>
-        <li class="list-group-item">
-            <a href="./clients/howtoo/html/volt/v2/volt.html">HowToo Volt html markup [v.2]</a>
-        </li>
-    </ul>
-</div>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page">
+        <header class="masthead">
+            <div>
+                <h1>Valentin Nikolaev</h1>
+                <p class="role">Backend engineering · Go &amp; PHP</p>
+            </div>
+            <nav aria-label="Contact and profiles">
+                <a href="https://github.com/ValentinNikolaev">GitHub</a>
+                <a href="https://www.linkedin.com/in/valentinnikolaev/">LinkedIn</a>
+                <a href="https://t.me/Mustdie1bit">Telegram</a>
+            </nav>
+        </header>
+        <main id="main" tabindex="-1">
+            <img class="workshop" src="assets/profile-workshop.png" width="2172" height="724"
+                alt="A cheerful PHP elephant has smashed a flowerpot while an unimpressed Go gopher looks on and a cat reaches for coffee.">
+            <!-- Profile copy: github.com/ValentinNikolaev/ValentinNikolaev/blob/main/README.md -->
+            <div class="intro">
+                <p class="location">From Kyiv, based near Rome.</p>
+                <p>I build backends and tools that take repetitive work off people's hands. A lot of my work involves getting services to talk to each other, moving messages around, and being able to explain what happened afterwards.</p>
+            </div>
+            <section aria-labelledby="projects">
+                <h2 id="projects">Selected projects</h2>
+                <div class="projects">
+                    <article>
+                        <h3><a href="https://github.com/ValentinNikolaev/php-upgrade-preflight">PHP Upgrade Preflight</a></h3>
+                        <p>Checks Composer dependencies, PHP compatibility and source code for upgrade issues before you make changes. Currently in public beta.</p>
+                    </article>
+                    <article>
+                        <h3><a href="https://github.com/ValentinNikolaev/job-intelligence">Job Intelligence</a></h3>
+                        <p>My job-search workflow. Code collects vacancies and checks the results, while Codex helps assess roles and prepare application drafts.</p>
+                    </article>
+                    <article>
+                        <h3><a href="https://github.com/ValentinNikolaev/agent-skills">Agent Plugins</a></h3>
+                        <p>Reusable workflows for Codex and Claude Code, covering code review, documentation, project memory and writing. Maintained in one place and generated for both.</p>
+                    </article>
+                    <article>
+                        <h3><a href="https://github.com/ValentinNikolaev/php-analysis-tools-catalog">PHP Analysis Tools Catalog</a></h3>
+                        <p>PHP tools for static analysis, code quality, refactoring and security, gathered in one place so they're easier to find and compare. <a href="https://valentinnikolaev.github.io/php-analysis-tools-catalog/">Search the catalog</a>.</p>
+                    </article>
+                </div>
+            </section>
+            <section class="working" aria-labelledby="how-i-work">
+                <h2 id="how-i-work">How I work</h2>
+                <p>I like clear contracts, useful logs and documentation that answers the next person's question. I like production to be uneventful. I've never felt it owed me entertainment.</p>
+            </section>
+        </main>
+        <footer>
+            <h2>Earlier demos</h2>
+            <ul>
+                <li><a href="./clients/howtoo/html/volt/v1/volt.html">HowToo Volt HTML markup · v1</a></li>
+                <li><a href="./clients/howtoo/html/volt/v2/volt.html">HowToo Volt HTML markup · v2</a></li>
+            </ul>
+        </footer>
+    </div>
 
 </body>
 </html>
